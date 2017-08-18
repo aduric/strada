@@ -1,0 +1,6 @@
+[package]
+name = "strada"
+version = "0.1.0"
+authors = ["aduric"]
+
+[dependencies]
