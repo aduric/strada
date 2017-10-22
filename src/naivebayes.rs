@@ -1,24 +1,24 @@
 use std::collections::HashMap;
 
-pub type Feature<T> = (&str, T);
-pub type Label = &str;
+pub type Feature<'a, T> = (&'a str, T);
+pub type Label<'a> = &'a str;
 
 pub struct NaiveBayes {}
 
-pub struct Model {
-    features: Vec<Feature<T>>,
-    labels: Vec<Label>,
-    label_likelihoods: HashMap<Label, HashMap<Feature<T>, f64>>
+pub struct Model<'a, T> {
+    features: Vec<Feature<'a, T>>,
+    labels: Vec<Label<'a>>,
+    label_likelihoods: HashMap<Label<'a>, HashMap<Feature<'a, T>, f64>>
 }
 
-impl Model {
+impl<'a, T> Model<'a, T> {
     pub fn get_likelihoods(&self) -> HashMap<Label, HashMap<Feature<T>, f64>> {
         self.label_likelihoods
     }
 }
 
 impl NaiveBayes {
-    pub fn train(featureset: Vec<(Vec<Feature<T>>, Label)>) -> Self {
+    pub fn train<T>(featureset: Vec<(Vec<Feature<T>>, Label)>) -> Self {
         let model = Model::new();
 
         let label_totals: HashMap<&str, u32> = HashMap::new();
@@ -43,8 +43,7 @@ impl NaiveBayes {
 
         model
     }
-    pub fn test(featureset: Vec<(Vec<Feature<T>>, Label)>) -> Self {
-    }
+    pub fn test<T>(featureset: Vec<(Vec<Feature<T>>, Label)>) -> Self {}
 }
 
 #[cfg(test)]
