@@ -1,5 +1,4 @@
-use std::collections::hash_map::DefaultHasher;
-use std::hash::{HashMap, Hasher};
+use std::collections::HashMap;
 
 pub type Feature<T> = (&str, T);
 pub type Label = &str;
@@ -16,7 +15,7 @@ pub struct Model {
 }
 
 impl Model {
-    pub fn get_likelihoods() -> HashMap<Label, HashMap<Feature<T>, f64>> {
+    pub fn get_likelihoods(&self) -> HashMap<Label, HashMap<Feature<T>, f64>> {
         self.label_likelihoods
     }
 }
@@ -33,7 +32,7 @@ impl NaiveBayes {
             let label_totals_incr = label_totals.entry(*label).or_insert(0);
             *label_totals_incr += 1;
             let label_entry = feature_counts.entry(*label).or_insert(HashMap::new());
-            let feature_count_entry = *label_entry.entry(feature).or_insert(0);
+            let feature_count_entry = *label_entry.entry(f).or_insert(0);
             *feature_count_entry += 1;
         }
 
